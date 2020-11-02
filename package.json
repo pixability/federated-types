@@ -1,0 +1,34 @@
+{
+    "name": "@pixability-ui/federated-types",
+    "version": "0.0.3",
+    "description": "share typings for your federated typescript packages around your mono-repo",
+    "main": "cli.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Jonathan Greene <jgreene@pixability.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/pixability/federated-types.git"
+    },
+    "files": [
+        "cli.js",
+        "typings.package.tmpl.json"
+    ],
+    "keywords": [
+        "module-federation",
+        "typescript",
+        "typings",
+        "mono-repo"
+    ],
+    "bin": {
+        "make-federated-types": "./cli.js"
+    },
+    "peerDependencies": {
+        "typescript": "^4.0.5"
+    },
+    "devDependencies": {
+        "prettier": "^2.1.2"
+    }
+}
