@@ -44,6 +44,10 @@ const compileFiles = Object.values(federationConfig.exposes);
 const outFile = path.resolve(outputDir, `${federationConfig.name}.d.ts`);
 
 try {
+    if (fs.existsSync(outFile)) {
+        fs.unlinkSync(outFile);
+    }
+
     // write the typings file
     const program = ts.createProgram(compileFiles, {
         outFile,
