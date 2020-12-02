@@ -60,14 +60,23 @@ try {
 
     program.emit();
 
-    typing = fs.readFileSync(outFile, { encoding: 'utf8', flag: 'r' });
+    let typing = fs.readFileSync(outFile, { encoding: 'utf8', flag: 'r' });
+
+    const moduleRegex = RegExp(/declare module "(.*)"/, 'g');
+    const moduleNames = [];
+
+    while ((execResults = moduleRegex.exec(typing)) !== null) {
+        moduleNames.push(execResults[1]);
+    }
+
+    moduleNames.forEach((name) => {
+        const regex = RegExp(`"${name}`, 'g');
+        typing = typing.replace(regex, `"${federationConfig.name}/${name}`);
+    });
 
     console.log('writing typing file:', outFile);
 
-    fs.writeFileSync(
-        outFile,
-        typing.replace(/declare module \"/g, `declare module "${federationConfig.name}/`)
-    );
+    fs.writeFileSync(outFile, typing);
 
     // if we are writing to the node_modules/@types directory, add a package.json file
     if (outputDir.includes('node_modules/@types')) {
