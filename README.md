@@ -12,7 +12,7 @@ You'll need to install this module with either NPM or yarn:
 yarn add @pixability-ui/federated-types
 ```
 
-You'll also need to place a `federation.config.json` in each package being federated. It will contain the remote name and exported members. These properties are used in webpoack's `ModuleFederationPlugin` configuration object. An exmaple:
+You'll also need to place a `federation.config.json` in each package being federated. It will contain the remote name and exported members. These properties are used in Webpack's `ModuleFederationPlugin` configuration object. An example:
 
 #### `federation.config.json`
 
