@@ -1,8 +1,8 @@
 ## What is this for?
 
-With Webpack 5's ModuleFederationPlugin, module federation is easy to implement. Coupling it with a mono-repo is powerful, but if your project uses Typescript, it's tedious to manually create/maintain ambient type definitions for your packages so Typescript can resolve the dynamic imports to their proper types. While using @ts-ignore on your imports works, it is a bummer to lose intellisense and type-checking capabilities.
+With Webpack 5's ModuleFederationPlugin, module federation is easy to implement. Coupling it with a mono-repo is powerful, but if your project uses Typescript, it's tedious to manually create/maintain ambient type definitions for your packages so TypeScript can resolve the dynamic imports to their proper types. While using @ts-ignore on your imports works, it is a bummer to lose intellisense and type-checking capabilities.
 
-This package exposes a node CLI command called `make-federated-types`. Once installed, you can run that command within a package, and it will write a typings file for your package into you node_modules directory that will be resolved by the Typescript compiler.
+This package exposes a node CLI command called `make-federated-types`. Once installed, you can run that command within a package, and it will write a typings file for your package into you node_modules directory that will be resolved by the TypeScript compiler.
 
 ## How is this used?
 
@@ -62,7 +62,7 @@ scripts: {
 }
 ```
 
-This will write new package to the `node_modules/@types/__federated_types` in your project. Since Tyepscript will resolve typings in the `node_modules/@types` directory by default, you won't have to set up any other resolution or pathing in your tsconfig files to start using your typings.
+This will write new package to the `node_modules/@types/__federated_types` in your project. Since TypeScript will resolve typings in the `node_modules/@types` directory by default, you won't have to set up any other resolution or pathing in your tsconfig files to start using your typings.
 
 If you would rather specify a directory in which to write the typing files, you can pass an `--outputDir` parameter to the command like so:
 
