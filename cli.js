@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const os = require("os");
 const ts = require('typescript');
 
 const getArg = (argName) => {
@@ -79,7 +80,9 @@ try {
     fs.writeFileSync(outFile, typing);
 
     // if we are writing to the node_modules/@types directory, add a package.json file
-    if (outputDir.includes('node_modules/@types')) {
+    if (outputDir.includes( os.platform() === "win32"
+                ? "node_modules\\@types"
+                : "node_modules/@types")) {
         const packageJsonPath = path.resolve(outputDir, 'package.json');
 
         if (!fs.existsSync(packageJsonPath)) {
