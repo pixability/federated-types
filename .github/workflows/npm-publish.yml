@@ -33,7 +33,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-       - name: checkout code
+      - name: checkout code
         uses: actions/checkout@v2
       
       - name: configure node
@@ -46,7 +46,7 @@ jobs:
         run: yarn install --frozenLockfile
         env:
           PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
-          
+
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
