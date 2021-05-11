@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
+        env:
+          PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
       - run: npm test
         env:
           PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
@@ -30,6 +32,8 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+        env:
+          PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
@@ -48,6 +52,8 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
+        env:
+          PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
