@@ -24,10 +24,10 @@ jobs:
         env:
           PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
 
-      - name: run tests
-        run: npm test
-        env:
-          PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
+      # - name: run tests
+      #   run: npm test
+      #   env:
+      #     PIX_UI_NPM_TOKEN: ${{ secrets.PIX_UI_NPM_TOKEN }}
 
   publish-npm:
     needs: build
