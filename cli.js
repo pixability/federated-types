@@ -14,32 +14,35 @@ const outputDir = outDirArg
     ? path.resolve('./', outDirArg)
     : path.resolve(__dirname, '../../@types/__federated_types/');
 
-const findFederationConfigs = (base, files, result) => {
-    files = files || fs.readdirSync(base);
-    result = result || [];
+const findFederationConfig = (base) => {
+    let files = fs.readdirSync(base);
+    let queue = [];
 
-    files.forEach((file) => {
+    for( let i = 0; i < files.length; i++ ) {
+        const file = files[i];
         const newBase = path.join(base, file);
-        if (fs.statSync(newBase).isDirectory()) {
-            result = findFederationConfigs(newBase, fs.readdirSync(newBase), result);
-        } else {
-            if (file === 'federation.config.json') {
-                result.push(require(path.resolve('./', newBase)));
-            }
+        if (file === 'federation.config.json') {
+            return path.resolve('./', newBase);
+        } else if(fs.statSync(newBase).isDirectory() && !newBase.includes('node_modules')) {
+            queue.push(newBase);
         }
-    });
+    }
 
-    return result;
+    for( let i = 0; i < queue.length; i++ ) {
+        return findFederationConfig(queue[i]);
+    }
 };
 
-const configs = findFederationConfigs('./');
+const federationConfigPath = findFederationConfig('./');
 
-if (configs.length !== 1) {
-    console.error(`ERROR: Found ${configs.length} federation configs`);
+if (federationConfigPath === undefined) {
+    console.error(`ERROR: Unable to find a federation.config.json file in this package`);
     process.exit(1);
 }
 
-const federationConfig = configs[0];
+console.log(`Using config file: ${federationConfigPath}`);
+
+const federationConfig = require(federationConfigPath);
 const compileFiles = Object.values(federationConfig.exposes);
 const outFile = path.resolve(outputDir, `${federationConfig.name}.d.ts`);
 
