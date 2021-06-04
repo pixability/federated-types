@@ -5,6 +5,11 @@ const fs = require('fs');
 const os = require("os");
 const ts = require('typescript');
 
+const isArgSet = (argName) => {
+    const argIndex = process.argv.indexOf(argName);
+    return argIndex !== -1;
+};
+
 const getArg = (argName) => {
     const argIndex = process.argv.indexOf(argName);
     return argIndex !== -1 ? process.argv[argIndex + 1] : null;
@@ -14,6 +19,8 @@ const outDirArg = getArg('--outputDir');
 const outputDir = outDirArg
     ? path.resolve('./', outDirArg)
     : path.resolve(__dirname, '../../@types/__federated_types/');
+
+ const useFederatedAlias = isArgSet('--useFederatedAlias');
 
 const findFederationConfig = (base) => {
     let files = fs.readdirSync(base);
@@ -45,6 +52,7 @@ console.log(`Using config file: ${federationConfigPath}`);
 
 const federationConfig = require(federationConfigPath);
 const compileFiles = Object.values(federationConfig.exposes);
+const compileKeys = Object.keys(federationConfig.exposes);
 const outFile = path.resolve(outputDir, `${federationConfig.name}.d.ts`);
 
 try {
@@ -73,9 +81,10 @@ try {
         moduleNames.push(execResults[1]);
     }
 
-    moduleNames.forEach((name) => {
+    moduleNames.forEach((name, index) => {
         const regex = RegExp(`"${name}`, 'g');
-        typing = typing.replace(regex, `"${federationConfig.name}/${name}`);
+        const exposedModuleName = useFederatedAlias ? compileKeys[index].replace('./', '') : name;
+        typing = typing.replace(regex, `"${federationConfig.name}/${exposedModuleName}`);
     });
 
     console.log('writing typing file:', outFile);
