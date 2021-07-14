@@ -5,6 +5,15 @@ const fs = require('fs');
 const os = require("os");
 const ts = require('typescript');
 
+const formatHost = {
+  getCurrentDirectory: ts.sys.getCurrentDirectory,
+  getNewLine: () => ts.sys.newLine
+};
+
+function reportDiagnostic(diagnostic) {
+  console.log("TS Error", diagnostic.code, ":", ts.flattenDiagnosticMessageText( diagnostic.messageText, formatHost.getNewLine()));
+}
+
 const getArg = (argName) => {
     const argIndex = process.argv.indexOf(argName);
     return argIndex !== -1 ? process.argv[argIndex + 1] : null;
@@ -62,7 +71,13 @@ try {
         esModuleInterop: true,
     });
 
-    program.emit();
+    const { emitSkipped, diagnostics } = program.emit();
+
+    diagnostics.forEach(reportDiagnostic)
+
+    if (emitSkipped) {
+        process.exit(0)
+    }
 
     let typing = fs.readFileSync(outFile, { encoding: 'utf8', flag: 'r' });
 
