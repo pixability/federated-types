@@ -73,3 +73,13 @@ scripts: {
     "make-types": "make-federated-types --outputDir ../../my_types/"
 }
 ```
+
+#### `package.json`
+
+If you would like to specify custom path to the config, you can pass `--config` parameter like so:
+
+```json
+scripts: {
+    "make-types": "make-federated-types --config ./path/to/my/config.json --outputDir ../../my_types/"
+}
+```
