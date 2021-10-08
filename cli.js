@@ -56,6 +56,7 @@ console.log(`Using config file: ${federationConfigPath}`);
 
 const federationConfig = require(federationConfigPath);
 const compileFiles = Object.values(federationConfig.exposes);
+const compileKeys = Object.keys(federationConfig.exposes);
 const outFile = path.resolve(outputDir, `${federationConfig.name}.d.ts`);
 
 try {
@@ -85,8 +86,11 @@ try {
     }
 
     moduleNames.forEach((name) => {
-        const regex = RegExp(`"${name}`, 'g');
-        typing = typing.replace(regex, `"${federationConfig.name}/${name}`);
+        // exposeName - relative name of exposed component (if not found - just take moduleName)
+        const exposeName = compileKeys.find(key => federationConfig.exposes[key].endsWith(name)) || name;
+        const regex = RegExp(`"${name}"`, 'g');
+        const moduleDeclareName = path.join(federationConfig.name, exposeName).replace(/[\\/]/g, '/');
+        typing = typing.replace(regex, `"${moduleDeclareName}"`);
     });
 
     console.log('writing typing file:', outFile);
