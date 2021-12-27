@@ -1,7 +1,7 @@
 {
     "name": "@types/__federated_types",
     "version": "0.0.1",
-    "description": "Placholder for federated typings",
+    "description": "Placeholder for federated typings",
     "license": "MIT",
     "main": "",
     "types": "index.d.ts"
