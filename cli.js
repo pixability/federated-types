@@ -74,7 +74,16 @@ try {
         esModuleInterop: true,
     });
 
-    program.emit();
+    const emitResult = program.emit();
+
+    // if errors have been detected, log them to the console
+    if (emitResult && emitResult.diagnostics) {
+        emitResult.diagnostics.forEach(diagnostic => {
+            console.error(`Error in file: ${diagnostic.file.fileName}:`);
+            console.error(diagnostic.messageText);
+            console.error();
+      })
+    }
 
     let typing = fs.readFileSync(outFile, { encoding: 'utf8', flag: 'r' });
 
