@@ -9,7 +9,7 @@ This package exposes a node CLI command called `make-federated-types`. Once inst
 You'll need to install this module with either NPM or yarn:
 
 ```
-yarn add @pixability-ui/federated-types
+yarn add @pixability/federated-types
 ```
 
 You'll also need to place a `federation.config.json` in each package being federated. It will contain the remote name and exported members. These properties are used in Webpack's `ModuleFederationPlugin` configuration object. An example:
