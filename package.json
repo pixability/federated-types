@@ -1,6 +1,6 @@
 {
-    "name": "@pixability-ui/federated-types",
-    "version": "0.2.0",
+    "name": "@pixability/federated-types",
+    "version": "0.3.0",
     "description": "share typings for your federated typescript packages around your mono-repo",
     "main": "cli.js",
     "scripts": {
